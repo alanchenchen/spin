@@ -7,7 +7,7 @@
 a terminal spinner for golang
 > Author：Alan Chen
 
-> Date: 2020/4/20
+> Date: 2020/4/22
 
 ## features
 1. 使用goroutine来运行spinner。

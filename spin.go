@@ -2,10 +2,11 @@ package spin
 
 import (
 	"fmt"
+	"os"
 	"time"
 )
 
-const threadsNum uint = 1
+const lockThreadsNum uint = 1
 
 // spin character
 type character struct {
@@ -15,10 +16,10 @@ type character struct {
 
 // spin content
 type Spin struct {
-	shouldWork bool
-	threadsNum uint
-	character  character
-	ch         chan bool
+	shouldWork     bool
+	lockThreadsNum uint
+	character      character
+	ch             chan bool
 }
 
 func (s *Spin) run() {
@@ -43,10 +44,14 @@ func (s *Spin) waitForRun() {
 
 // start spinning
 func (s *Spin) Start() {
-	if s.threadsNum <= 1 {
+	if s.lockThreadsNum == 1 {
 		go s.waitForRun()
 		go s.run()
+	} else {
+		fmt.Println("current spin locks only one goroutine, so don't call start method multiple times")
+		os.Exit(1)
 	}
+	s.lockThreadsNum++
 }
 
 // stop spinning
@@ -83,7 +88,7 @@ func (s *Spin) Fail(text string) {
 func New(spinType character) *Spin {
 	s := new(Spin)
 	s.shouldWork = true
-	s.threadsNum = threadsNum
+	s.lockThreadsNum = lockThreadsNum
 	s.character = spinType
 	s.ch = make(chan bool)
 	return s
