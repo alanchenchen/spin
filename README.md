@@ -7,8 +7,6 @@
 a terminal spinner for golang
 > Author：Alan Chen
 
-> Version: 0.1.0
-
 > Date: 2020/4/20
 
 ## features
